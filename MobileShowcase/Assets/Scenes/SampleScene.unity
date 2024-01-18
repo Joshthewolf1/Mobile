@@ -228,6 +228,7 @@ GameObject:
   - component: {fileID: 884940858}
   - component: {fileID: 884940860}
   - component: {fileID: 884940861}
+  - component: {fileID: 884940862}
   m_Layer: 0
   m_Name: Jorge_0
   m_TagString: Untagged
@@ -247,7 +248,8 @@ Transform:
   m_LocalPosition: {x: 0.082, y: 0.41, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1928473217}
   m_Father: {fileID: 1062078237}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &884940858
@@ -346,10 +348,10 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Interpolate: 1
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!70 &884940861
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -359,7 +361,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 884940856}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 213b3f686dd339c4d96379bfa87a94cb, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -385,6 +387,23 @@ CapsuleCollider2D:
   m_Offset: {x: 0.019491673, y: -0.10395679}
   m_Size: {x: 0.31128597, y: 0.7920864}
   m_Direction: 0
+--- !u!114 &884940862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 884940856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42b880e9164920340b4ddc6088b56913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 884940860}
+  groundCheck: {fileID: 1928473217}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1062078236
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,7 +429,7 @@ Transform:
   m_GameObject: {fileID: 1062078236}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.05646, y: 0.6924595, z: 0.07549002}
+  m_LocalPosition: {x: -9.11, y: 1.84, z: 0.07549002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -427,7 +446,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1460306295}
   - component: {fileID: 1460306294}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -477,7 +496,7 @@ GameObject:
   - component: {fileID: 1798910227}
   - component: {fileID: 1798910230}
   - component: {fileID: 1798910229}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1150,6 +1169,37 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &1928473216
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1928473217}
+  m_Layer: 0
+  m_Name: Ground Check
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1928473217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928473216}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.1, y: -0.51, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 884940857}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2022133965
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,7 +1214,7 @@ GameObject:
   - component: {fileID: 2022133971}
   - component: {fileID: 2022133970}
   - component: {fileID: 2022133969}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2088,7 +2138,7 @@ GameObject:
   - component: {fileID: 2123822632}
   - component: {fileID: 2123822634}
   - component: {fileID: 2123822633}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
