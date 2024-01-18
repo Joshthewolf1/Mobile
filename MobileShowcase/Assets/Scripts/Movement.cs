@@ -1,61 +1,103 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
-public class Movement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
-    private float horizontal;
-    private float speed;
-    private float jump;
-    private bool isFacingRight = true;
 
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] float runSpeed = 10f;
+    [SerializeField] float jumpSpeed = 5f;
+
+    Vector2 moveInput;
+    Rigidbody2D myRigidbody;
+    Animator myAnimator;
+
+    void Start()
+    {
+        GameObject.FindWithTag("Water").GetComponent<TilemapCollider2D>().enabled = false;
+        myRigidbody = GetComponent<Rigidbody2D>();
+        myAnimator = GetComponent<Animator>();
+    }
 
 
-    // Update is called once per frame
     void Update()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
+        Run();
+        FlipSprite();
 
-        if(Input.GetButtonDown("Jump") && IsGrounded())
+
+
+    }
+
+    void OnMove(InputValue value)
+    {
+        moveInput = value.Get<Vector2>();
+    }
+
+    void OnJump(InputValue value)
+    {
+        if (value.isPressed)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jump);
-        }
-
-        if(Input.GetButtonUp("Jump") && IsGrounded())
-            {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-            }
-
-        Flip();
-    }
-
-
-    private void FixedUpdate()
-    {
-        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
-    }
-
-    
-
-
-    private bool IsGrounded()
-    {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-    }
-
-    private void Flip()
-    {
-        if (isFacingRight && horizontal < 0f || isFacingRight && horizontal > 0f)
-        {
-            isFacingRight = !isFacingRight;
-            Vector3 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
+            myRigidbody.velocity += new Vector2(0f, jumpSpeed);
+            myAnimator.SetBool("isSailing", false);
+            GameObject.FindWithTag("Water").GetComponent<TilemapCollider2D>().enabled = false;
         }
     }
+
+    void OnSail(InputValue value)
+    {
+
+        if (value.isPressed)
+
+        {
+            myAnimator.SetBool("isSailing", true);
+            GameObject.FindWithTag("Water").GetComponent<TilemapCollider2D>().enabled = true;
+        }
+
+    }
+
+
+    void Run()
+    {
+        Vector2 playerVelocity = new Vector2(moveInput.x * runSpeed, myRigidbody.velocity.y);
+        myRigidbody.velocity = playerVelocity;
+
+        bool playerHasHorizontalSpeed = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;
+        myAnimator.SetBool("Speed", playerHasHorizontalSpeed);
+
+    }
+
+    private void FlipSprite()
+    {
+        bool playerHasHorizontalSpeed = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;
+
+        if (playerHasHorizontalSpeed)
+        {
+            transform.localScale = new Vector2(Mathf.Sign(myRigidbody.velocity.x), 1f);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Water"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
